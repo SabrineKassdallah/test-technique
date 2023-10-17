@@ -1,0 +1,99 @@
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4><b>Nouveau Regle</b></h4>
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-success" (click)="back()">
+              <i class='fas fa-arrow-left'></i><span> Back</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="ruleForm">
+        <div formGroupName="regle">
+          <div class="table-content">
+            <div class="form-group p-10 row">
+              <div class="col-sm-3">
+                <label for="Name" class="p-t-b-10">Nom<span class="requiredStar">*</span></label>
+              </div>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" formControlName="name">
+              </div>
+            </div>
+            <hr>
+            <div class="card">
+              <div class="card-header">
+                Regle
+              </div>
+              <div class="card-body">
+                <div formGroupName="hierarchy">
+                  <pre>{{ formStructureToJson(ruleForm) }}</pre>
+                  <div class="hierarchy">
+                    <button class="btn btn-outline-success" (click)="addChildHierarchy(hierarchy)" style="margin: 10px;">
+                      <i class='fas fa-plus-circle'></i><span> Ajouter child Node</span>
+                    </button>
+
+                    <button class="btn btn-outline-success" (click)="addCriterHierarchy(hierarchy)" style="margin: 10px;">
+                      <i class='fas fa-plus-circle'></i><span> Ajouter Criter</span>
+                    </button>
+
+                    <label for="node_type">Type Node</label>
+                    <select formControlName="node_type" style="margin-left:10px">
+                      <option value="OR">OR</option>
+                      <option value="ET">ET</option>
+                    </select>
+
+                    <div formArrayName="childrens">
+                      <div *ngFor="let child of childrens.controls; let j = index" class="child-hierarchy" [formGroupName]="j">
+                        <div>
+                          <div *ngIf="child.get('node_type')" >
+                            <button class="btn btn-outline-success" (click)="removeHierarchyNode(childrens, j)" style="margin: 10px;">
+                              <i class='fas fa-plus-circle'></i><span> Add Criter</span>
+                            </button>
+
+                            <label for="node_type">Node Type</label>
+                            <select formControlName="node_type" style="margin-left:10px" >
+                              <option value="OU">OU</option>
+                              <option value="ET">ET</option>
+                            </select>
+                            <button type="button" (click)="removeHierarchyNode(childrens, j)" class="btn btn-danger button-style">Supprimer</button>
+                          </div>
+                          <div *ngIf="child.get('critere')" style="margin: 10px;">
+                            <div formGroupName="critere">
+                              <label for="term_id">Term</label>
+                              <select formControlName="term_id" style="margin: 10px;" >
+                                <option value="">Select a term</option>
+                                <option *ngFor="let term of terms" [value]="term.id">{{ term.name }}</option>
+                              </select>
+                              <label for="operator">Operator</label>
+                              <select formControlName="operator" style="margin: 10px;" >
+                                <option value="=">=</option>
+                                <option value=">">></option>
+                                <option value="<"><</option>
+                              </select>
+                              <label for="value">Value</label>
+                              <input type="text" formControlName="value" style="margin-left:10px" >
+                              <button type="button" (click)="removeHierarchyNode(childrens, j)" class="btn"><i class='fas fa-trash-alt delete'></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-footer">
+            <button class="btn btn-success" (click)="AddRegle(ruleForm.valid)" style="margin: 10px;">Enregistrer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    {{ ruleForm.value | json }}
+  </div>
+</div>

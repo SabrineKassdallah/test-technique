@@ -1,0 +1,40 @@
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4><b>Regles</b></h4>
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-success" (click)="AddRegle()">
+              <i class='fas fa-plus-circle'></i><span> ADD</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover table-bordered table-content">
+        <thead>
+          <tr class="center-align">
+            <th>Regle Name</th>
+            <th>Expression</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let regle of regles" class="center-align">
+            <td>{{ regle.name }}</td>
+            <td>{{ regle.expression }}</td>
+            <td>
+              <a href="#" [routerLink]="['/regles/edit/', regle.id]" class="btn"><i class="fa fa-edit edit"></i></a>
+              <button type="button" (click)="deleteRegleConfirmation(regle)" class="btn"><i class='fas fa-trash-alt delete'></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td *ngIf="regles.length == 0" colspan="6">No Regles Found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

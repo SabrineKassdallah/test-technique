@@ -1,0 +1,51 @@
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4><b>Manage Terms</b></h4>
+          </div>
+
+          <div class="col-sm-6">
+            <button class="btn btn-success" (click)="back()">
+              <i class='fas fa-arrow-left'></i><span> Back</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <form #termForm="ngForm">
+        <div class="table-content">
+          <div class="form-group p-10 row">
+            <div class="col-sm-3">
+              <label for="Name" class="p-t-b-10">Name<span class="requiredStar">*</span></label>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="Name" required maxlength="255"
+                [(ngModel)]="newTermForm.name" name="Name" #Name="ngModel">
+                <div *ngIf="Name.errors && isSubmitted" class="alert alert-danger validationError">
+                  Name is required
+                </div>
+            </div>
+          </div>
+          <div class="form-group p-10 row">
+            <div class="col-sm-3">
+              <label for="TermType" class="p-t-b-10">Type<span class="requiredStar">*</span></label>
+            </div>
+            <div class="col-sm-9">
+                <select  class="form-control" id="TermType" [(ngModel)]="newTermForm.term_type"  name="TermType" #TermType="ngModel">
+                  <option *ngFor="let type of termType" [ngValue]="type">{{type}}</option>
+                </select>
+                <div *ngIf="Name.errors && isSubmitted" class="alert alert-danger validationError">
+                  Type is required
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-footer">
+          <button class="btn btn-success" (click)="createTerm(termForm.form.valid)">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
